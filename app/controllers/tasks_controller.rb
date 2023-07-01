@@ -4,6 +4,14 @@ class TasksController < ApplicationController
     @tasks = Task.all
   end
 
+  def update_status
+    @task = Task.find(params[:id])
+    new_status = params[:new_status]
+    @task.update_status(new_status)
+
+    render json: { message: 'Task status updated' }
+  end
+
   def show
   end
 

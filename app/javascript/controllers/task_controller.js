@@ -2,8 +2,8 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="task"
 export default class extends Controller {
+  static targets = ['status_id']
   connect() {
-    console.log(this.element)
   }
   dragstart(event) {
     event.dataTransfer.setData("application/drag-key", event.target.getAttribute("data-task-id"))
@@ -21,13 +21,14 @@ export default class extends Controller {
 
   dragend(event) {
     event.preventDefault();
-    console.log(this.element)
   }
 
   drop(event) {
     var data = event.dataTransfer.getData("application/drag-key")
+    console.log(data)
     const dropTarget = event.target
     const draggedItem = this.element.querySelector(`[data-task-id='${data}']`);
+    console.log(event.target)
     const positionComparison = dropTarget.compareDocumentPosition(draggedItem)
     if ( positionComparison & 4) {
       event.target.insertAdjacentElement('beforebegin', draggedItem);

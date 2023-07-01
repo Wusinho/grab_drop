@@ -1,20 +1,21 @@
-<div class="status" >
+<div class="status" id="0" >
   <h2>Start</h2>
-  <% if task.status == 'start' %>
-    <h2 data-task-id="0" draggable="true"><%= task.name %></h2>
-  <% end %>
+    <div data-drag-and-drop-target="item" data-task-id="<%= task.id %>" data-task-status="start">
+      <%= task.name if task.status == 'start' %>
+    </div>
 </div>
-
-<div class="status">
+<div class="status" id="1">
   <h2>Progress</h2>
-  <% if task.status == 'progress' %>
-    <h2 data-task-id="1" draggable="true"><%= task.name %></h2>
-  <% end %>
+
+  <div data-drag-and-drop-target="item" data-task-id="<%= task.id %>" data-task-status="start">
+    <%= task.name if task.status == 'progress' %>
+  </div>
+
 </div>
 
-<div class="status">
+<div class="status" id="2">
   <h2>Done</h2>
-  <% if task.status == 'done' %>
-    <h2 data-task-id="2" draggable="true"><%= task.name %></h2>
-  <% end %>
+  <div data-drag-and-drop-target="item" data-task-id="<%= task.id %>" data-task-status="start">
+    <%= task.name if task.status == 'done' %>
+  </div>
 </div>
