@@ -7,6 +7,9 @@ class TasksController < ApplicationController
   def update_status
     @task = Task.find(params[:id])
     new_status = params[:new_status]
+    p '*'*100
+    p params
+    p '*'*100
     @task.update_status(new_status)
 
     render json: { message: 'Task status updated' }

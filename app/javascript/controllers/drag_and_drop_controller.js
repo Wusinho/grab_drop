@@ -1,49 +1,65 @@
-import { Controller } from "@hotwired/stimulus"
+// app/javascript/controllers/drag_and_drop_controller.js
+import { Controller } from '@hotwired/stimulus';
 
-// Connects to data-controller="drag-and-drop"
 export default class extends Controller {
-  static targets = ['item'];
+  static targets = ['item', 'container'];
+
   connect() {
     this.itemTargets.forEach((item) => {
       item.setAttribute('draggable', 'true');
       item.addEventListener('dragstart', this.dragStart.bind(this));
-      item.addEventListener('dragover', this.dragOver.bind(this));
-      item.addEventListener('drop', this.drop.bind(this));
-      item.addEventListener('dragend', this.dragEnd.bind(this));
     });
+
+    this.containerTarget.addEventListener('dragover', this.dragOver.bind(this));
+    this.containerTarget.addEventListener('dragenter', this.dragEnter.bind(this));
+    this.containerTarget.addEventListener('dragleave', this.dragLeave.bind(this));
+    this.containerTarget.addEventListener('drop', this.drop.bind(this));
   }
 
   dragStart(event) {
     const taskId = event.target.dataset.taskId;
     event.dataTransfer.setData('text/plain', taskId);
-    console.log('start')
+    event.target.classList.add('dragging');
   }
 
   dragOver(event) {
     event.preventDefault();
+    event.dataTransfer.dropEffect = 'move';
+  }
+
+  dragEnter(event) {
     event.target.classList.add('dragover');
-    console.log('dragover')
+  }
+
+  dragLeave(event) {
+    event.target.classList.remove('dragover');
   }
 
   drop(event) {
-    console.log('drop')
     event.preventDefault();
     const taskId = event.dataTransfer.getData('text/plain');
     const newStatus = event.target.dataset.taskStatus;
     const item = document.querySelector(`[data-task-id="${taskId}"]`);
-    console.log(item)
+    const container = event.currentTarget;
 
-    if (item) {
-      item.parentNode.insertBefore(item, event.target.nextSibling);
-      item.classList.remove('dragover');
-      this.updateTaskStatus(taskId, newStatus);
+    if (item && container) {
+      const currentItems = this.itemTargets
+      const targetItem = event.target.parentNode.querySelector('[data-drag-and-drop-target="item"]');
+
+
+      if (currentItems.includes(item) && targetItem !== item) {
+
+        targetItem.append(item)
+        // const targetIndex = currentItems.indexOf(targetItem);
+
+        // container.insertBefore(item, currentItems[targetIndex + 1]);
+        // item.classList.remove('dragover');
+        // this.updateTaskStatus(taskId, newStatus);
+      }
     }
-  }
 
-  dragEnd(event) {
     event.target.classList.remove('dragover');
   }
-
 
   async updateTaskStatus(taskId, newStatus) {
     try {
@@ -65,5 +81,4 @@ export default class extends Controller {
       console.error(error);
     }
   }
-
 }
