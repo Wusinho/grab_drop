@@ -1,0 +1,7 @@
+<h1>Task Status</h1>
+
+<div class="task__status" data-controller="task"
+     data-action="dragstart->task#dragstart dragover->task#dragover dragenter->task#dragenter drop->task#drop dragend->task#dragend"
+>
+  <%= render 'tasks/task_status', task: @task %>
+</div>
