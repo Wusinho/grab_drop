@@ -16,7 +16,6 @@
 
 
 .task__status{
-    width: 100%;
     display: flex;
     align-items: center;
     align-content: space-around;

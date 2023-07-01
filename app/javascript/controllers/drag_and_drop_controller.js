@@ -19,7 +19,7 @@ export default class extends Controller {
   dragStart(event) {
     const taskId = event.target.dataset.taskId;
     event.dataTransfer.setData('text/plain', taskId);
-    event.target.classList.add('dragging');
+    // event.target.classList.add('dragging');
   }
 
   dragOver(event) {
@@ -28,37 +28,32 @@ export default class extends Controller {
   }
 
   dragEnter(event) {
-    event.target.classList.add('dragover');
+    // event.target.classList.add('dragover');
   }
 
   dragLeave(event) {
-    event.target.classList.remove('dragover');
+    // event.target.classList.remove('dragover');
   }
 
   drop(event) {
     event.preventDefault();
     const taskId = event.dataTransfer.getData('text/plain');
-    const newStatus = event.target.dataset.taskStatus;
     const item = document.querySelector(`[data-task-id="${taskId}"]`);
     const container = event.currentTarget;
+
 
     if (item && container) {
       const currentItems = this.itemTargets
       const targetItem = event.target.parentNode.querySelector('[data-drag-and-drop-target="item"]');
 
-
       if (currentItems.includes(item) && targetItem !== item) {
 
-        targetItem.append(item)
-        // const targetIndex = currentItems.indexOf(targetItem);
+        targetItem.innerHTML = item.innerHTML
+        item.innerHTML = ''
 
-        // container.insertBefore(item, currentItems[targetIndex + 1]);
-        // item.classList.remove('dragover');
-        // this.updateTaskStatus(taskId, newStatus);
       }
     }
 
-    event.target.classList.remove('dragover');
   }
 
   async updateTaskStatus(taskId, newStatus) {
