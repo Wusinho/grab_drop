@@ -40,7 +40,6 @@ export default class extends Controller {
     const statusId = event.dataTransfer.getData('text/plain');
     const item = this.itemTargets.find((item) => item.dataset.taskStatusId === statusId);
     const container = event.currentTarget;
-
     if (item && container) {
       const parent = event.target.parentNode
       const targetItem = parent.querySelector('[data-drag-and-drop-target="item"]');
