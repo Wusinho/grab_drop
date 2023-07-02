@@ -17,8 +17,8 @@ export default class extends Controller {
   }
 
   dragStart(event) {
-    const taskId = event.target.dataset.taskId;
-    event.dataTransfer.setData('text/plain', taskId);
+    const statusId = event.target.dataset.taskStatusId;
+    event.dataTransfer.setData('text/plain', statusId);
     // event.target.classList.add('dragging');
   }
 
@@ -37,37 +37,37 @@ export default class extends Controller {
 
   drop(event) {
     event.preventDefault();
-    const taskId = event.dataTransfer.getData('text/plain');
-    const item = document.querySelector(`[data-task-id="${taskId}"]`);
+    const statusId = event.dataTransfer.getData('text/plain');
+    const item = this.itemTargets.find((item) => item.dataset.taskStatusId === statusId);
     const container = event.currentTarget;
 
-
     if (item && container) {
-      const currentItems = this.itemTargets
-      const targetItem = event.target.parentNode.querySelector('[data-drag-and-drop-target="item"]');
+      const parent = event.target.parentNode
+      const targetItem = parent.querySelector('[data-drag-and-drop-target="item"]');
 
-      if (currentItems.includes(item) && targetItem !== item) {
-
+      if (this.itemTargets.includes(targetItem) && targetItem !== item) {
         targetItem.innerHTML = item.innerHTML
         item.innerHTML = ''
-
+        const newStatusId =  targetItem.dataset.taskStatusId
+        const taskId = targetItem.dataset.taskId
+        this.updateTaskStatus(newStatusId, taskId)
       }
     }
-
   }
 
-  async updateTaskStatus(taskId, newStatus) {
+  async updateTaskStatus(status, taskId) {
     try {
-      const response = await fetch(`/tasks/${taskId}/update_status`, {
+      const response = await fetch(`/tasks/${taskId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
         },
-        body: JSON.stringify({ new_status: newStatus }),
+        body: JSON.stringify({ status: status }),
       });
 
       if (response.ok) {
+
         // Task status updated successfully
       } else {
         throw new Error('Failed to update task status');

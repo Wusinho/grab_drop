@@ -1,18 +1,19 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:show]
+  before_action :set_task, only: [:show, :update]
   def index
     @tasks = Task.all
   end
 
-  def update_status
-    @task = Task.find(params[:id])
-    new_status = params[:new_status]
-    p '*'*100
-    p params
-    p '*'*100
-    @task.update_status(new_status)
-
-    render json: { message: 'Task status updated' }
+  def update
+    if @task.update(status: params[:status].to_i)
+      render json: {
+        msg: 'Exito'
+      }
+    else
+      render json: {
+        error: @task.message
+      }
+    end
   end
 
   def show

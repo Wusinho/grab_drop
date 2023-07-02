@@ -1,10 +1,10 @@
 <h1>Task Status</h1>
 
-<div data-controller="drag-and-drop">
-  <div data-drag-and-drop-target="container" class="task__status">
+<div data-controller="drag-and-drop" >
+  <div data-drag-and-drop-target="container" class="task__status" data-task>
     <div data-task-status="0">
       <h1>Start</h1>
-      <div class="status start" data-drag-and-drop-target="item" data-drag-and-drop-target="item"  data-task-id="0">
+      <div class="status start" data-drag-and-drop-target="item" data-drag-and-drop-target="item"  data-task-status-id="0" data-task-id="<%= @task.id %>">
         <% if @task.status == 'start' %>
           <h2><%= @task.name %></h2>
         <% end %>
@@ -13,7 +13,7 @@
 
     <div data-task-status="1">
       <h1>Progress</h1>
-      <div class="status progress" data-drag-and-drop-target="item" data-drag-and-drop-target="item" data-task-status="1" data-task-id="1">
+      <div class="status progress" data-drag-and-drop-target="item" data-drag-and-drop-target="item" data-task-status-id="1" data-task-id="<%= @task.id %>">
         <% if @task.status == 'progress' %>
           <h2><%= @task.name %></h2>
         <% end %>
@@ -23,7 +23,7 @@
 
     <div data-task-status="2">
       <h1>Done</h1>
-      <div class="status done" data-drag-and-drop-target="item" data-drag-and-drop-target="item" data-task-status="2" data-task-id="2">
+      <div class="status done" data-drag-and-drop-target="item" data-drag-and-drop-target="item" data-task-status-id="2" data-task-id="<%= @task.id %>">
         <% if @task.status == 'done' %>
           <h2><%= @task.name %></h2>
         <% end %>
